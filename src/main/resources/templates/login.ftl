@@ -11,21 +11,16 @@
 <input type="password" name="password" id="password"><br>
 <input onclick="login()" type="submit" value="Sign in"><br>
 <a href="/register">Don't have an account? Register!</a>
-
 <script>
     window.onload = function () {
-        console.log("Dorou");
-        console.log(window.localStorage.getItem("AUTH"));
         if (window.localStorage.getItem("AUTH") !== null) {
-            var headers = {
-                "AUTH": window.localStorage.getItem("AUTH")
-            };
-
             $.ajax({
                 url: "/api/login-token",
                 method: "get",
                 contentType: "application/json",
-                headers: headers,
+                headers: {
+                    "AUTH": window.localStorage.getItem("AUTH")
+                },
                 success: function () {
                     window.location.href = '/chat'
                 }

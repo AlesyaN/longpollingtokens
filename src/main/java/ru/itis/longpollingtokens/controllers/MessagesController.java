@@ -2,8 +2,10 @@ package ru.itis.longpollingtokens.controllers;
 
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.longpollingtokens.dto.MessageDto;
+import ru.itis.longpollingtokens.security.details.UserDetailsImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,12 +17,18 @@ public class MessagesController {
     private final Map<String, List<MessageDto>> messages = new HashMap<>();
 
     @PostMapping("/messages")
-    public ResponseEntity<Object> receiveMessage(@RequestBody MessageDto message) {
-        if (!messages.containsKey(message.getPageId())) {
-            messages.put(message.getPageId(), new ArrayList<>());
+    @ResponseBody
+    public ResponseEntity<Object> receiveMessage(@RequestParam("message")String text, Authentication authentication) {
+        String tokenValue = ((UserDetailsImpl) authentication.getPrincipal()).getCurrentToken().getValue();
+        if (!messages.containsKey(tokenValue)) {
+            messages.put(tokenValue, new ArrayList<>());
         }
         for (List<MessageDto> pageMessages : messages.values()) {
             synchronized (pageMessages) {
+                MessageDto message = MessageDto.builder()
+                        .text(text)
+                        .token(tokenValue)
+                        .build();
                 pageMessages.add(message);
                 pageMessages.notifyAll();
             }
@@ -30,13 +38,14 @@ public class MessagesController {
 
     @SneakyThrows
     @GetMapping("/messages")
-    public ResponseEntity<List<MessageDto>> getMessagesForPage(@RequestParam("pageId") String pageId) {
-        synchronized (messages.get(pageId)) {
-            if (messages.get(pageId).isEmpty()) {
-                messages.get(pageId).wait();
+    public ResponseEntity<List<MessageDto>> getMessagesForPage(Authentication authentication) {
+        String tokenValue = ((UserDetailsImpl) authentication.getPrincipal()).getCurrentToken().getValue();
+        synchronized (messages.get(tokenValue)) {
+            if (messages.get(tokenValue).isEmpty()) {
+                messages.get(tokenValue).wait();
             }
-            List<MessageDto> response = new ArrayList<>(messages.get(pageId));
-            messages.get(pageId).clear();
+            List<MessageDto> response = new ArrayList<>(messages.get(tokenValue));
+            messages.get(tokenValue).clear();
             return ResponseEntity.ok(response);
         }
     }

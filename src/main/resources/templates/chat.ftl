@@ -12,12 +12,11 @@
             crossorigin="anonymous"></script>
     <#--<script src="/js/chat.js" type="application/javascript"></script>-->
 </head>
-<body onload="login('${userDto.currentToken.value}')">
+<body onload="login()">
 <h1>Ваш Login: ${userDto.user.login}</h1>
 <div>
     <input id="message" placeholder="Ваше сообщение">
-    <button onclick="sendMessage('${userDto.currentToken.value}',
-            $('#message').val())">Отправить</button>
+    <button onclick="sendMessage($('#message').val())">Отправить</button>
 </div>
 <div>
     <ul id="messages">
@@ -25,49 +24,43 @@
     </ul>
 </div>
 <script>
-    function sendMessage(pageId, text) {
-        let body = {
-            pageId: pageId,
-            text: text
-        };
-
+    function sendMessage(text) {
         $.ajax({
             url: "/messages",
             method: "POST",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            dataType: "json",
+            data: {
+                "message": text
+            },
+            // contentType: "application/json",
+            // dataType: "json",
             complete: function () {
             }
         });
     }
-    function receiveMessage(pageId) {
+
+    function receiveMessage() {
         $.ajax({
-            url: "/messages?pageId=" + pageId,
+            url: "/messages",
             method: "GET",
-            dataType: "json",
-            contentType: "application/json",
+            // dataType: "json",
+            // contentType: "application/json",
             success: function (response) {
-                $('#messages').first().after('<li>' + response[0]['text'] + '</li>')
-                receiveMessage(pageId);
+                $('#messages').first().after('<li>' + response[0]['text'] + '</li>');
+                receiveMessage();
             }
         })
     }
 
-    function login(pageId) {
-        let body = {
-            pageId: pageId,
-            text: 'Hi!'
-        };
-
+    function login() {
         $.ajax({
             url: "/messages",
             method: "POST",
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            dataType: "json",
-            complete: function () {
-                receiveMessage(pageId);
+            data: {
+                "message": "Hi!"
+            },
+            success: function () {
+                alert("login");
+                receiveMessage();
             }
         });
     }

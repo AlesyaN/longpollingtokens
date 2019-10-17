@@ -12,7 +12,17 @@
 <script>
     window.onload = function () {
         if (window.localStorage.getItem("AUTH") !== null) {
-            window.location.href = '/login'
+            $.ajax({
+                url: "/api/login-token",
+                method: "get",
+                contentType: "application/json",
+                headers: {
+                    "AUTH": window.localStorage.getItem("AUTH")
+                },
+                success: function () {
+                    window.location.href = '/chat'
+                }
+            })
         }
     }
 </script>
