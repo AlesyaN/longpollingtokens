@@ -24,7 +24,7 @@ public class User {
     private String login;
     private String passwordHash;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    @OneToOne
+    private Token token;
 
 }

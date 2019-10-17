@@ -16,14 +16,12 @@ public class RestApiController {
     @Autowired
     private LoginService service;
 
-    @PostMapping("/api/login-token")
-    @PreAuthorize("permitAll()")
+    @GetMapping("/api/login-token")
     public ResponseEntity<TokenDto> loginByToken() {
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/api/login-cred")
-    @PreAuthorize("permitAll()")
     public ResponseEntity<TokenDto> loginByCredentials(LoginDto loginDto) {
         return ResponseEntity.ok(service.loginByCredentials(loginDto));
     }

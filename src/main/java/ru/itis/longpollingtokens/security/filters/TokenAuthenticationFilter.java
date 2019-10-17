@@ -17,8 +17,10 @@ public class TokenAuthenticationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         // вытаскиваем заголовок с токеном
         String tokenValue = request.getHeader(AUTH_HEADER);
+        System.out.println(tokenValue);
         // если заголовок содержит что-либо
         if (tokenValue != null) {
+            System.out.println("I'm in if in doFilter");
             // создаем объект токен-аутентификации
             TokenAuthentication authentication = new TokenAuthentication();
             // в него кладем токен

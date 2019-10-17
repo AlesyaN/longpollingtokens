@@ -8,13 +8,15 @@
     <#--<script src="login.js"></script>-->
 </head>
 <body>
-    <input type="text" name="login" id="login"><br>
-    <input type="password" name="password" id="password"><br>
-    <input onclick="login()" type="submit" value="Sign Up"><br>
-    <a href="/register">Don't have an account? Register!</a>
+<input type="text" name="login" id="login"><br>
+<input type="password" name="password" id="password"><br>
+<input onclick="login()" type="submit" value="Sign in"><br>
+<a href="/register">Don't have an account? Register!</a>
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
+        console.log("Dorou");
+        console.log(window.localStorage.getItem("AUTH"));
         if (window.localStorage.getItem("AUTH") !== null) {
             var headers = {
                 "AUTH": window.localStorage.getItem("AUTH")
@@ -22,11 +24,11 @@
 
             $.ajax({
                 url: "/api/login-token",
-                method: "post",
+                method: "get",
                 contentType: "application/json",
-                headers: JSON.stringify(headers),
-                success: function() {
-                    alert("heeey");
+                headers: headers,
+                success: function () {
+                    history.go(-1);
                 }
             })
         }

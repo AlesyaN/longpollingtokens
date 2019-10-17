@@ -38,6 +38,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // добавляем наш фильтр
         http.addFilterBefore(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class);
         http.authorizeRequests()
-                .antMatchers("*").permitAll();
+                .antMatchers("/api/login-token", "/api/login-cred").permitAll()
+                .antMatchers("/chat").authenticated()
+        .and()
+        .formLogin()
+                .loginPage("/login");
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itis.longpollingtokens.forms.UserForm;
+import ru.itis.longpollingtokens.models.Token;
 import ru.itis.longpollingtokens.models.User;
 import ru.itis.longpollingtokens.repositories.UserRepository;
 
@@ -27,5 +28,9 @@ public class UserService  {
 
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findUserByLogin(login);
+    }
+
+    public Optional<User> getUserByToken(Token currentToken) {
+        return userRepository.findFirstByToken(currentToken);
     }
 }

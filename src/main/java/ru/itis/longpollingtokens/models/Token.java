@@ -19,8 +19,7 @@ public class Token {
     private Long id;
     private String value;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne
     private User user;
 
     private LocalDateTime createdAt;
