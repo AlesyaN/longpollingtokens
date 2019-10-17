@@ -28,7 +28,7 @@
                 contentType: "application/json",
                 headers: headers,
                 success: function () {
-                    history.go(-1);
+                    window.location.href = '/chat'
                 }
             })
         }
@@ -52,7 +52,6 @@
             dataType: "json",
             success: function (token) {
                 window.localStorage.setItem("AUTH", token.value);
-                alert(token.value);
                 window.location.href = '/chat'
             }
             // error: function (msg) {

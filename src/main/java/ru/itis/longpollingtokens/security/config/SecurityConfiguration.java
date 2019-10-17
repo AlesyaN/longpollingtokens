@@ -37,9 +37,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement().disable();
         // добавляем наш фильтр
         http.addFilterBefore(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class);
+        http.exceptionHandling().accessDeniedPage("/chat");
         http.authorizeRequests()
                 .antMatchers("/api/login-token", "/api/login-cred").permitAll()
                 .antMatchers("/chat").authenticated()
+                .antMatchers("/login").anonymous()
         .and()
         .formLogin()
                 .loginPage("/login");
