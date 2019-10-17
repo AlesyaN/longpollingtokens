@@ -59,7 +59,6 @@
                 "message": "Hi!"
             },
             success: function () {
-                alert("login");
                 receiveMessage();
             }
         });
