@@ -9,5 +9,12 @@
     <input type="submit" value="Register"><br>
     <a href="/login">Already have an account? Log in!</a>
 </form>
+<script>
+    window.onload = function () {
+        if (window.localStorage.getItem("AUTH") !== null) {
+            window.location.href = '/login'
+        }
+    }
+</script>
 </body>
 </html>

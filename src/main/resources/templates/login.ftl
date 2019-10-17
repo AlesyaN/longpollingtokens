@@ -5,7 +5,6 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
-    <#--<script src="login.js"></script>-->
 </head>
 <body>
 <input type="text" name="login" id="login"><br>
@@ -37,10 +36,6 @@
     function login() {
         var login = document.getElementById("login").value;
         var password = document.getElementById("password").value;
-        // var body = {
-        //     login: login,
-        //     password: password
-        // };
         $.ajax({
             url: "/api/login-cred",
             method: "get",
@@ -54,9 +49,6 @@
                 window.localStorage.setItem("AUTH", token.value);
                 window.location.href = '/chat'
             }
-            // error: function (msg) {
-            //     console.log("error " + msg);
-            // }
         });
     }
 </script>

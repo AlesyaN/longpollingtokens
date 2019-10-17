@@ -24,7 +24,7 @@ public class User {
     private String login;
     private String passwordHash;
 
-    @OneToOne
-    private Token token;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Token> tokens;
 
 }

@@ -19,7 +19,8 @@ public class Token {
     private Long id;
     private String value;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private LocalDateTime createdAt;

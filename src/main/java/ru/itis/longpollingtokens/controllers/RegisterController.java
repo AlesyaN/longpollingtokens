@@ -1,6 +1,7 @@
 package ru.itis.longpollingtokens.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,10 @@ public class RegisterController {
     UserService userService;
 
     @GetMapping("/register")
-    public String getRegisterPage() {
+    public String getRegisterPage(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/chat";
+        }
         return "register";
     }
 
@@ -23,6 +27,4 @@ public class RegisterController {
         userService.register(userForm);
         return "redirect:/login";
     }
-
-
 }

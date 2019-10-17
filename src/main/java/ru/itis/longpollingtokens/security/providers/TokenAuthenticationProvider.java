@@ -29,7 +29,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         // если данные пришли
         if (userDetails != null && userDetails.getCurrentToken().isNotExpired()) {
             // в данный объект аутентификации кладем пользователя
-            tokenAuthentication.setUserDetails((UserDetailsImpl)userDetails);
+            tokenAuthentication.setUserDetails(userDetails);
             // говорим, что с ним все окей
             tokenAuthentication.setAuthenticated(true);
         } else {

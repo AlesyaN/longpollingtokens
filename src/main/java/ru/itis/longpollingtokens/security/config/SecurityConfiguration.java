@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -37,13 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.sessionManagement().disable();
         // добавляем наш фильтр
         http.addFilterBefore(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class);
-        http.exceptionHandling().accessDeniedPage("/chat");
         http.authorizeRequests()
                 .antMatchers("/api/login-token", "/api/login-cred").permitAll()
-                .antMatchers("/chat").authenticated()
-                .antMatchers("/login").anonymous()
-        .and()
+                .antMatchers("/chat").authenticated().and()
         .formLogin()
                 .loginPage("/login");
     }
+
 }

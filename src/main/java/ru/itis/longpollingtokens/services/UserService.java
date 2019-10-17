@@ -30,7 +30,4 @@ public class UserService  {
         return userRepository.findUserByLogin(login);
     }
 
-    public Optional<User> getUserByToken(Token currentToken) {
-        return userRepository.findFirstByToken(currentToken);
-    }
 }

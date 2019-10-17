@@ -33,7 +33,7 @@ public class TokenAuthentication implements Authentication {
     @Override
     public Object getPrincipal() {
         if (userDetails != null) {
-            return userDetails.getUser();
+            return userDetails;
         } else return null;
     }
 
