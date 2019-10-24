@@ -42,8 +42,6 @@
         $.ajax({
             url: "/messages",
             method: "GET",
-            // dataType: "json",
-            // contentType: "application/json",
             success: function (response) {
                 $('#messages').first().after('<li>' + response[0]['text'] + '</li>');
                 receiveMessage();

@@ -33,12 +33,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // отключаем csrf
-        http.csrf().disable();
         // отключаем сессии
         http.sessionManagement().disable();
         // добавляем наш фильтр
         http.addFilterBefore(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class);
-        http.authorizeRequests()
+        http.csrf().disable().cors().disable().authorizeRequests()
                 .antMatchers("/api/login-token", "/api/login-cred").permitAll()
                 .antMatchers("/chat").authenticated().and()
         .formLogin()

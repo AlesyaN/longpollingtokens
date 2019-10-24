@@ -16,7 +16,7 @@
         if (window.localStorage.getItem("AUTH") !== null) {
             $.ajax({
                 url: "/api/login-token",
-                method: "get",
+                method: "POST",
                 contentType: "application/json",
                 headers: {
                     "AUTH": window.localStorage.getItem("AUTH")
